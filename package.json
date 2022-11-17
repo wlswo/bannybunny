@@ -1,0 +1,29 @@
+{
+  "name": "bannybunny_server",
+  "version": "1.0.0",
+  "description": "bannybunny_backend_server",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wlswo/bannybunny-BackEnd.git"
+  },
+  "keywords": [
+    "web3",
+    "nft",
+    "platform",
+    "for",
+    "gaming"
+  ],
+  "author": "wlswo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wlswo/bannybunny-BackEnd/issues"
+  },
+  "homepage": "https://github.com/wlswo/bannybunny-BackEnd#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
