@@ -11,8 +11,8 @@ exports.getAllBlogs = async (req, res) => {
  
 exports.createBlog = async (req, res) => {
   try {
+    console.log(req.body);
     const blog = await blogService.createBlog(req.body);
-    console.log("11");
     res.json({ data: blog, status: "success" });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -26,7 +26,7 @@ exports.getBlogById = async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-};
+}; 
  
 exports.updateBlog = async (req, res) => {
   try {
