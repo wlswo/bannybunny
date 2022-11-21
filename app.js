@@ -5,7 +5,9 @@ const cors = require('cors');
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const blogRouter = require("./src/routes/BlogRoutes");
-
+var session   = require('express-session');
+const passport = require('passport');
+app.use(passport.initialize())
 require('dotenv').config();
 
 /** 환경변수에서 포트 가져오기 */
@@ -28,18 +30,14 @@ app.use(express.json());
 // app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false})); /** extended - true : express 안에 내장된 querystring 모듈사용  / false : 더 확장된 qs 모듈 사용*/
 app.use(methodOverride('_method'));
+app.use(session({secret:'MySecret', resave: false, saveUninitialized:true}));
 
 /** 기본 경로로 접속시 응답 */
 app.set('view engine','ejs');
-app.set('views','./views');
-app.get('/', (req,res) => {
-   res.render('test')
-});
-app.get('/2', (req,res) => {
-   res.render('test2')
-});
-app.use("/api/blogs", blogRouter);
 
+// Routes
+app.use('/', require('./src/routes/main'));
+app.use('/auth', require('./src/routes/auth'));
 
 /** app.listen() 함수를 이용하여 서버를 실행 */
 app.listen(port, () => {
