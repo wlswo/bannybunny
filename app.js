@@ -1,13 +1,13 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const methodOverride = require('method-override');
-const mongoose = require('mongoose');
-const blogRouter = require("./src/routes/BlogRoutes");
-var session   = require('express-session');
-const passport = require('passport');
-app.use(passport.initialize())
+const express           = require('express');
+const app               = express();
+const bodyParser        = require('body-parser');
+const cors              = require('cors');
+const methodOverride    = require('method-override');
+const mongoose          = require('mongoose');
+const blogRouter        = require("./src/routes/BlogRoutes");
+const session           = require('express-session');
+const passport          = require('passport');
+
 require('dotenv').config();
 
 /** 환경변수에서 포트 가져오기 */
@@ -27,17 +27,20 @@ mongoose.connect(process.env.MONGO_DB);
 /** 요청을 json 형태로 파싱 , CORS 설정, ejs 템플릿 엔진 세팅 */
 app.use(cors());
 app.use(express.json());
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false})); /** extended - true : express 안에 내장된 querystring 모듈사용  / false : 더 확장된 qs 모듈 사용*/
 app.use(methodOverride('_method'));
 app.use(session({secret:'MySecret', resave: false, saveUninitialized:true}));
+app.use(passport.initialize())
+app.use(passport.session());
 
 /** 기본 경로로 접속시 응답 */
 app.set('view engine','ejs');
 
 // Routes
 app.use('/', require('./src/routes/main'));
-app.use('/auth', require('./src/routes/auth'));
+app.use('/api/login', require('./src/routes/LoginRoutes'));
+app.use('/api/logout', require('./src/routes/LogoutRoutes'));
 
 /** app.listen() 함수를 이용하여 서버를 실행 */
 app.listen(port, () => {
@@ -45,6 +48,4 @@ app.listen(port, () => {
 });
 
 module.exports = app;
-
-// 172.16.101.214:3001/
  
