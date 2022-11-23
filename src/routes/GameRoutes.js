@@ -17,7 +17,7 @@ router.route("/").get(getAllGames)
                  .post(createGame);
 
 router.route("/:id").get(getGameById)
-                    .put(updateGame)
+                    .patch(updateGame)
                     .delete(deleteGame);
 
 module.exports = router;

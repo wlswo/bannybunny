@@ -4,7 +4,6 @@ const bodyParser        = require('body-parser');
 const cors              = require('cors');
 const methodOverride    = require('method-override');
 const mongoose          = require('mongoose');
-const blogRouter        = require("./src/routes/BlogRoutes");
 const session           = require('express-session');
 const passport          = require('passport');
 
@@ -37,10 +36,21 @@ app.use(passport.session());
 /** 기본 경로로 접속시 응답 */
 app.set('view engine','ejs');
 
-// Routes
 app.use('/', require('./src/routes/main'));
+
+// 로그인 - 로그인, 로그아웃
 app.use('/api/login', require('./src/routes/LoginRoutes'));
+app.use('/auth/',require('./src/routes/LoginRoutes'));
 app.use('/api/logout', require('./src/routes/LogoutRoutes'));
+
+// 사용자 - 사용자 상세정보, 닉네임 중복체크 
+app.use('/api/users',require('./src/routes/UserRoutes'));
+
+// 게임 - 게임 리스트, 등록, 수정, 삭제 
+app.use('/api/games',require('./src/routes/GameRoutes'));
+
+// 리뷰 - 리뷰 등록, 수정, 삭제 
+app.use('/api/review',require('./src/routes/ReviewRoutes'));
 
 /** app.listen() 함수를 이용하여 서버를 실행 */
 app.listen(port, () => {

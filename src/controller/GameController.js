@@ -2,7 +2,7 @@ const gameService = require('../services/GameService');
 
 exports.getAllGames = async (req, res) => {
     try {
-      const games = await gameService.getAllGames(req.query.page);
+      const games = await gameService.getAllGames(req.query.page,req.query.limit);
       res.status(200).json({ data: games, status: "success" });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -11,7 +11,6 @@ exports.getAllGames = async (req, res) => {
    
   exports.createGame = async (req, res) => {
     try {
-      console.log(req.body);
       const game = await gameService.createGame(req.body);
       res.status(201).json({ data: game, status: "success" });
     } catch (err) {

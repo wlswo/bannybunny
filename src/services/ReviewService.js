@@ -7,8 +7,9 @@ exports.createReview = async (_review) => {
         return null;
     }
     const review = await ReviewModel.create(_review);
-    return await GameModel.findByIdAndUpdate({ _id: _review.gameid }, 
+    await GameModel.findByIdAndUpdate({ _id: _review.gameid }, 
                                         { $push: { review: review.id  } },);
+    return review;
 }
 
 exports.updateReview = async (_id, _review) => {

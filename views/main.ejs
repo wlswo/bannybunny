@@ -1,0 +1,10 @@
+<!-- views/main.ejs -->
+
+<h1>Main Page</h1>
+
+<% if(!user){ %>
+  <a href="api/login/google">Login</a>
+<% } else { %>
+  <p>로그인 이메일 <%= user %> </p>
+    <a href="api/logout">Logout</a>
+<% } %>

@@ -9,14 +9,14 @@ exports.createReview = async (req,res) => {
         }
         res.status(201).json({"data":review, status:"success"});
     }catch(err) {
-        res.status(500).json({"error":err.message});
+        res.status(500).json({"error": "잘못된 접근입니다."});
     }
 };
 
 exports.updateReview = async (req,res) => {
     const review = await reviewService.updateReview(req.params.id,req.body);
     if(review == null) {
-        return res.status(404).json({status:"수정할 리뷰가 없습니다."});
+        return res.status(404).json({status:"게시글이 없습니다."});
     }
     res.status(201).json({status:"success"});
 }

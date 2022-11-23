@@ -6,7 +6,7 @@ const reviewSchema = new Schema({
     writer: { type:mongoose.Schema.Types.ObjectId , ref: 'User' ,required: true },
     image: String,
     gameid: {type:mongoose.Schema.Types.ObjectId, ref: 'Game', required: true},
-    comment_date: {type: Date, default: Date.now()}
+    createAt: {type: Date, default: Date.now()}
 },{
     versionKey: false 
 });

@@ -1,15 +1,15 @@
 const GameModel = require("../models/Game");
  
-exports.getAllGames = async (page) => {
+exports.getAllGames = async (page,_limit) => {
     const currentPage = page || 1;
-    const perPage = 2;
+    const limit = _limit || 6;
     try{
         return await GameModel.find({},{review:0})
                               .where('isDelete').equals(false)
                               .populate('writer', 'name')
                               .sort({ createdAt: -1 })                        
-                              .skip((currentPage - 1) * perPage)
-                              .limit(perPage);
+                              .skip((currentPage - 1) * limit)
+                              .limit(limit);
     }catch(error){
         return error;
     }
