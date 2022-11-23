@@ -1,5 +1,6 @@
-var passport         = require('passport');
-var GoogleStrategy   = require('passport-google-oauth2').Strategy;
+var passport           = require('passport');
+const User             = require('../src/models/User');
+const GoogleStrategy   = require('passport-google-oauth2').Strategy;
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -14,11 +15,10 @@ passport.use(new GoogleStrategy(
     clientSecret  : process.env.GOOGLE_SECRET,
     callbackURL   : '/auth/google/callback',
     passReqToCallback   : true
-  }, function(request, accessToken, refreshToken,profile, email,done){
-    console.log('email: ', email.email);
-    var user = email.email;
-
-    done(null, user);
+  }, async function(request, accessToken, refreshToken, email, done){
+    User.findOrCreate({email: email.email}, (err, user)=> {
+        done(null, user);
+    });
   }
 ));
 
