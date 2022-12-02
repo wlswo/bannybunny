@@ -14,7 +14,7 @@ const userSchema = new Schema({
   check: {type:Number,default: 0},
   havegames: [String],
   likegames: [String],
-  versionKey: false,
+  type: String,
 },{
   versionKey: false 
 });
