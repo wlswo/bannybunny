@@ -6,6 +6,7 @@ const methodOverride    = require('method-override');
 const mongoose          = require('mongoose');
 const session           = require('express-session');
 const passport          = require('passport');
+const passportConfig = require('./passport'); //Passport 설정 import
 
 require('dotenv').config();
 
@@ -24,14 +25,19 @@ mongoose.connect(process.env.MONGO_DB);
 
 
 /** 요청을 json 형태로 파싱 , CORS 설정, ejs 템플릿 엔진 세팅 */
-app.use(cors());
+app.use(cors({
+  origin:true,
+  credentials:true
+}));
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false})); /** extended - true : express 안에 내장된 querystring 모듈사용  / false : 더 확장된 qs 모듈 사용*/
 app.use(methodOverride('_method'));
-app.use(session({secret:'MySecret', resave: false, saveUninitialized:true}));
+app.use(session({secret:process.env.SECRET, resave: false, saveUninitialized:true}));
+/** passport 초기화 및 session 연결 */
 app.use(passport.initialize())
 app.use(passport.session());
+passportConfig(); 
 
 /** 기본 경로로 접속시 응답 */
 app.set('view engine','ejs');
@@ -39,8 +45,7 @@ app.set('view engine','ejs');
 app.use('/', require('./src/routes/main'));
 
 // 로그인 - 로그인, 로그아웃
-app.use('/api/login', require('./src/routes/LoginRoutes'));
-app.use('/auth/',require('./src/routes/LoginRoutes'));
+app.use('/auth',require('./src/routes/LoginRoutes'));
 app.use('/api/logout', require('./src/routes/LogoutRoutes'));
 
 // 사용자 - 사용자 상세정보, 닉네임 중복체크 

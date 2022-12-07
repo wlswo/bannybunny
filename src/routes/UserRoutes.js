@@ -10,8 +10,11 @@ const {
 
 /** 로그인된 사용자의 정보 */
 router.route("/auth").get((req,res)=>{
-  console.log(req.user);
-  res.send({status:"success",user:req.user});
+  if(req.user === undefined) {
+    res.send({status:"false"});
+  }else{
+    res.send({status:"true",user:req.user});
+  }
 })
 
 /** 유저 상세 정보 가져오기 */

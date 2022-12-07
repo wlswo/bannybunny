@@ -1,7 +1,6 @@
 const passport = require('passport');
 const KakaoStrategy = require('passport-kakao').Strategy;
 const User = require('../src/models/User');
-const {verifyToken, makeAccessToken, makeRefreshToken} = require('../utils/jwt');
 const{ Strategy , ExtractJwt } = require("passport-jwt");
 
 module.exports = () => {
@@ -18,8 +17,6 @@ module.exports = () => {
                   where: { email: profile.email, type : 'kakao' },
                });
                if (exUser) {
-                  const refreshToken = makeRefreshToken(exUser.email);
-
                   done(null, exUser); // 로그인 인증 완료
                } else {
                   const newUser = await User.create({
